@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Generator - Samuel</title>
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/5e066876-47a6-4b07-beba-fb4abff31f74/me.png?v=1728092945974"
+      type="image/png"
+    />
+    <meta
+      name="description"
+      content="Create Strong Passwords from your weak ones. Enhance your online security by generating secure passwords based on your input."
+    />
+    <meta
+      name="keywords"
+      content="password generator, Samuel Ajayi, strong passwords, online security, secure passwords, password creation tool"
+    />
+    <meta name="author" content="Samuel Ajayi" />
+
+    <meta property="og:title" content="Strong Password Generator" />
+    <meta
+      property="og:description"
+      content="Create Strong Passwords from your weak ones. Enhance your online security by generating secure passwords based on your input."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn.glitch.global/5e066876-47a6-4b07-beba-fb4abff31f74/NCSAM-with-Samuel.png?v=1728092255372"
+    />
+    <meta property="og:url" content="https://passgen-with-samuel.glitch.me/" />
+    <meta property="og:type" content="website" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="argboot.css" />
+    <style type="text/css">
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="d-flex flex-column justify-content-center align-items-center min-vh-100 bg-light bg-cover"
+    style="
+      background-image: url('https://cdn.glitch.global/5e066876-47a6-4b07-beba-fb4abff31f74/bg-img.png?v=1728088902821');
+    "
+  >
+    <div class="container d-block d-lg-flex flex-lg-row justify-content-center">
+      <div class="row text-start justify-content-start">
+        <h2 class="mb-4 text-white text-start">
+          Let's Generate a Strong Password
+        </h2>
+        <div class="col-12 col-md-8 col-lg-8">
+          <input
+            type="text"
+            id="userInput"
+            class="form-control mb-4"
+            placeholder="Enter a word/phrase (8+ characters)"
+            maxlength="50"
+          />
+          <div class="col-12 text-center text-md-start">
+            <button onclick="generatePassword()" class="btn btn-dark">
+              Generate Password
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="d-flex flex-column m-0 mt-4 mt-lg-0 mb-2 p-0 w-100 justify-content-center align-items-center"
+      >
+        <img
+          src="https://cdn.glitch.global/5e066876-47a6-4b07-beba-fb4abff31f74/brand.png?v=1728088911882"
+          alt="Brand Image"
+          class="w-80 w-md-50 w-lg-80"
+        />
+      </div>
+    </div>
+
+    <footer
+      class="d-flex flex-column flex-md-row gap-2 w-100 p-3 justify-content-center text-center bg-white text-dark position-fixed bottom-0"
+    >
+      <p class="p-0 m-0">© 2024 Strong Password Generator</p>
+      <p class="p-0 m-0">
+        Created by
+        <a
+          href="https://www.linkedin.com/in/samuel-ajayi-opemipo/"
+          class="fw-bold text-dark"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Samuel</a
+        >
+      </p>
+    </footer>
+
+    <div
+      class="modal fade"
+      id="errorModal"
+      tabindex="-1"
+      aria-labelledby="errorModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="errorModalLabel">Error</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="errorMessage">Please enter a valid input.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="passwordModal"
+      tabindex="-1"
+      aria-labelledby="passwordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="passwordModalLabel">
+              Generated Password
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Your generated password is:
+              <span id="generatedPassword" class="fw-bold"></span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="copyPassword()"
+            >
+              Copy
+            </button>
+            <button
+              type="button"
+              class="btn btn-warning"
+              onclick="regeneratePassword()"
+            >
+              Regenerate
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="instructionsModal"
+      tabindex="-1"
+      aria-labelledby="instructionsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-info text-white">
+            <h5 class="modal-title" id="instructionsModalLabel">
+              Instructions
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>To generate a strong password:</p>
+            <ol>
+              <li>Enter a word or phrase with at least 8 characters.</li>
+              <li>Click on the "Generate Password" button.</li>
+              <li>Your generated password will appear in the pop-up.</li>
+              <li>You can copy it or regenerate a new one as needed.</li>
+            </ol>
+            <p class="fst-italic fw-bold text-danger">P.S: No database of any kind is linked to this service, meaning Strong Password generated are not stored anywhere.<br>Your password is known to YOU and YOU ALONE.<br>- Samuel</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
